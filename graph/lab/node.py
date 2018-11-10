@@ -6,11 +6,11 @@ class node:
         self.children = children
         self.val = 0
 
-    def encode(self, obj):
-        obj = json.JSONEncoder.encode(self, obj)
-        return obj
+class nodeEncoder(json.JSONEncoder):
+    def to_json(self, o):
+        return o.__dict__
 
-    def decode(self, obj):
-        obj = json.JSONDecoder.decode(self, obj)
-        return obj
+    def from_json(self, obj):
+        if 'node' in obj:
+            return node(obj['node'])
 

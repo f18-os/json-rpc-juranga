@@ -21,11 +21,11 @@ root = node("root", [leaf1, leaf1, leaf2])
 rpc = JSONRpc(s,framing_cls=JSONFramingNone)
 server = rpc.get_peer_proxy()
 
-root = root.decode(root)
+root = json.dumps(nodeEncoder().to_json(root))
 
 # Execute in server:
 server.show(root)
-root = server.increment(root, deserialize=False)
+root = server.increment(root)
 server.show(root)
 
 rpc.close() # Closes the socket 's' also

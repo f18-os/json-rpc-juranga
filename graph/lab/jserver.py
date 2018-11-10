@@ -3,6 +3,7 @@
 
 import socket
 import json
+from node import *
 from bsonrpc import JSONRpc
 from bsonrpc import request, service_class
 from bsonrpc.exceptions import FramingError
@@ -17,8 +18,7 @@ class Node(object):
   @request
   def increment(self, graph, deserialize=True):
     if deserialize:
-      graph = graph.decode(graph)
-      deserialize = False
+      graph = json.loads(nodeEncoder().from_json(graph))
     graph.val +=1;
     for c in graph.children:
       self.increment(c, deserialize=False)
