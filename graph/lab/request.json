@@ -1,0 +1,26 @@
+{
+    "jsonrpc": "2.0",
+    "method": "increment",
+    "params": {
+        "node": {
+            "name": "root",
+            "children": [
+                {
+                    "name": "leaf1",
+                    "children": [],
+                    "val": 0
+                },
+                {
+                    "name": "leaf1",
+                    "children": [],
+                    "val": 0
+                },
+                {
+                    "name": "leaf2",
+                    "children": [],
+                    "val": 0
+                }
+            ]
+        }
+    }
+}
