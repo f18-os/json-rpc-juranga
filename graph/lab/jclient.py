@@ -4,6 +4,7 @@
 import socket
 from bsonrpc import JSONRpc
 from node import *
+import json
 from bsonrpc.exceptions import FramingError
 from bsonrpc.framing import (
 	JSONFramingNetstring, JSONFramingNone, JSONFramingRFC7464)
@@ -20,9 +21,11 @@ root = node("root", [leaf1, leaf1, leaf2])
 rpc = JSONRpc(s,framing_cls=JSONFramingNone)
 server = rpc.get_peer_proxy()
 
+root = root.decode(root)
+
 # Execute in server:
 server.show(root)
-root = server.increment(root)
+root = server.increment(root, deserialize=False)
 server.show(root)
 
 rpc.close() # Closes the socket 's' also

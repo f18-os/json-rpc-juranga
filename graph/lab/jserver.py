@@ -2,6 +2,7 @@
 # https://github.com/seprich/py-bson-rpc/blob/master/README.md#quickstart
 
 import socket
+import json
 from bsonrpc import JSONRpc
 from bsonrpc import request, service_class
 from bsonrpc.exceptions import FramingError
@@ -14,17 +15,18 @@ from bsonrpc.framing import (
 class Node(object):
 
   @request
-  def increment(self, graph):
+  def increment(self, graph, deserialize=True):
+    if deserialize:
+      graph = graph.decode(graph)
+      deserialize = False
     graph.val +=1;
     for c in graph.children:
-      self.increment(c)
+      self.increment(c, deserialize=False)
     return graph
 
   @request
   def show(self, graph, level=0):
-      print("%s%s val=%d:" % (level*"  ", graph.name, graph.val))
-      for c in graph.children: 
-          c.show(level + 1)
+      print(graph)
 
 # Quick-and-dirty TCP Server:
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
