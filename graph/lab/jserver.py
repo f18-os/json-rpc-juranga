@@ -16,16 +16,20 @@ from bsonrpc.framing import (
 class Node(object):
 
   @request
-  def increment(self, graph, deserialize=True):
-    if deserialize:
-      graph = json.loads(nodeEncoder().from_json(graph))
+  def deserialized_increment(self, graph):
     graph.val +=1;
     for c in graph.children:
-      self.increment(c, deserialize=False)
+      self.deserialized_increment(c)
     return graph
 
   @request
-  def show(self, graph, level=0):
+  def increment(self, graph):
+    graph = nodeEncoder().from_json(graph)
+    graph = self.deserialized_increment(graph)
+    return nodeEncoder().to_json(graph)
+
+  @request
+  def show(self, graph):
       print(graph)
 
 # Quick-and-dirty TCP Server:

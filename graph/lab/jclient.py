@@ -17,15 +17,17 @@ s.connect(('localhost', 50001))
 leaf1 = node("leaf1")
 leaf2 = node("leaf2")
 root = node("root", [leaf1, leaf1, leaf2])
+coder = nodeEncoder()
 
 rpc = JSONRpc(s,framing_cls=JSONFramingNone)
 server = rpc.get_peer_proxy()
 
-root = json.dumps(nodeEncoder().to_json(root))
+root = coder.to_json(root)
 
 # Execute in server:
 server.show(root)
 root = server.increment(root)
+root = coder.to_json(root)
 server.show(root)
 
 rpc.close() # Closes the socket 's' also

@@ -11,16 +11,20 @@ from bsonrpc.framing import (
 
 # Class providing functions for the client to use:
 @service_class
-class ServerServices(object):
+class Node(object):
 
   @request
-  def swapper(self, txt):
-    return ''.join(reversed(list(txt)))
+  def increment(self, graph):
+    graph.val +=1;
+    for c in graph.children:
+      self.increment(c)
+    return graph
 
   @request
-  def nop(self, txt):
-    print(txt)
-    return txt
+  def show(self, graph, level=0):
+      print("%s%s val=%d:" % (level*"  ", graph.name, graph.val))
+      for c in graph.children: 
+          c.show(level + 1)
 
 # Quick-and-dirty TCP Server:
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -30,4 +34,4 @@ ss.listen(10)
 while True:
   s, _ = ss.accept()
   # JSONRpc object spawns internal thread to serve the connection.
-  JSONRpc(s, ServerServices(),framing_cls=JSONFramingNone)
+  JSONRpc(s, Node(),framing_cls=JSONFramingNone)
