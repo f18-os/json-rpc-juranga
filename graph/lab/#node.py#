@@ -23,7 +23,6 @@ def increment(graph):
         increment(c)
 
 def deserialized_increment(obj, obj_dict):
-    print(obj.name)
     if not obj_dict[obj.name] == 0:
         obj_dict[obj.name].val += 1;
         obj.val = obj_dict[obj.name].val;

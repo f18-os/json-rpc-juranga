@@ -22,6 +22,9 @@ class Node(object):
     graph = nodeEncoder().from_json(graph)
     obj_dict = defaultdict(int)
     deserialized_increment(graph, obj_dict)
+    #graph = nodeEncoder().to_json(graph)
+    with open('request.json', 'w+') as outfile:
+      json.dump(graph, outfile, default=lambda x: x.__dict__)
     return nodeEncoder().to_json(graph)
 
   @request
@@ -29,8 +32,6 @@ class Node(object):
     graph = nodeEncoder().from_json(graph)
     show_g(graph)
     graph = nodeEncoder().to_json(graph)
-    json_file = os.open("request.json", "w+")
-    json_file.write(graph)
     
 # Quick-and-dirty TCP Server:
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
