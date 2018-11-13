@@ -1,1 +1,21 @@
-{"name": "root", "children": [{"name": "leaf1", "children": [], "val": 2}, {"name": "leaf1", "children": [], "val": 2}, {"name": "leaf2", "children": [], "val": 1}], "val": 1}
+{
+    "name": "root",
+    "children": [
+        {
+            "name": "leaf1",
+            "children": [],
+            "val": 2
+        },
+        {
+            "name": "leaf1",
+            "children": [],
+            "val": 2
+        },
+        {
+            "name": "leaf2",
+            "children": [],
+            "val": 1
+        }
+    ],
+    "val": 1
+}
