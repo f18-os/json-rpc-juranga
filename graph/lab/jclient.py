@@ -25,9 +25,10 @@ server = rpc.get_peer_proxy()
 root = coder.to_json(root)
 
 # Execute in server:
+print('before increment')
 server.show(root)
 root = server.increment(root)
-root = coder.to_json(root)
+print('after increment')
 server.show(root)
 
 rpc.close() # Closes the socket 's' also

@@ -2,6 +2,7 @@
 # https://github.com/seprich/py-bson-rpc/blob/master/README.md#quickstart
 
 import socket
+from collections import defaultdict
 import json
 from node import *
 from bsonrpc import JSONRpc
@@ -16,22 +17,18 @@ from bsonrpc.framing import (
 class Node(object):
 
   @request
-  def deserialized_increment(self, graph):
-    graph.val +=1;
-    for c in graph.children:
-      self.deserialized_increment(c)
-    return graph
-
-  @request
   def increment(self, graph):
     graph = nodeEncoder().from_json(graph)
-    graph = self.deserialized_increment(graph)
+    obj_dict = defaultdict(int)
+    deserialized_increment(graph, obj_dict)
     return nodeEncoder().to_json(graph)
 
   @request
   def show(self, graph):
-      print(graph)
-
+    graph = nodeEncoder().from_json(graph)
+    show_g(graph)
+    graph = nodeEncoder().to_json(graph)
+    
 # Quick-and-dirty TCP Server:
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ss.bind(('localhost', 50001))
