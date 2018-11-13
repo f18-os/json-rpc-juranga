@@ -4,6 +4,7 @@
 import socket
 from collections import defaultdict
 import json
+import os
 from node import *
 from bsonrpc import JSONRpc
 from bsonrpc import request, service_class
@@ -28,6 +29,8 @@ class Node(object):
     graph = nodeEncoder().from_json(graph)
     show_g(graph)
     graph = nodeEncoder().to_json(graph)
+    json_file = os.open("request.json", "w+")
+    json_file.write(graph)
     
 # Quick-and-dirty TCP Server:
 ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
